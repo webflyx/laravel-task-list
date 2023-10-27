@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 
 Route::get('/tasks', function () {
-    $tasks = Task::latest()->get();
+    $tasks = Task::latest()->paginate(10);
     return view('tasks.index', compact('tasks'));
 })->name('tasks.index');
 
@@ -57,3 +57,8 @@ Route::delete('/tasks/{task}/delete', function(Task $task) {
     $task->delete();
     return redirect()->route('tasks.index')->with('success', 'Tasks successfully deleted!');
 })->name('tasks.destroy');
+
+Route::put('/tasks/{task}/status', function(Task $task) {
+    $task->taskStatus();
+    return redirect()->back()->with('success','Task status updated!');
+})->name('tasks.status');

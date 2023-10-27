@@ -14,4 +14,13 @@
         <div>Tasks not find.</div>
     @endforelse 
 
+    @if ($tasks->count())
+        <div>
+            <nav>
+                {{ $tasks->links() }}
+            </nav>
+        </div>
+    @endif
+    
+
 @endsection

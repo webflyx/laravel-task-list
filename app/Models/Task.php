@@ -10,4 +10,10 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'description', 'full_description'] ;
+
+    public function taskStatus()
+    {
+        $this->completed = !$this->completed;
+        $this->save();
+    }
 }
