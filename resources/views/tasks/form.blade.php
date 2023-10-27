@@ -12,27 +12,29 @@
 
         <div>
             <label for="title">Title</label>
-            <input type="text" name="title" value="{{ $task->title ?? old('title') }}">
+            <input @class(['border-red-400'=>$errors->has('title')]) type="text" name="title" value="{{ $task->title ?? old('title') }}">
             @error('title')
                 <div class="error-msg">{{ $message }}</div>
             @enderror
         </div>
         <div>
             <label for="description">Description</label>
-            <input type="text" name="description" value="{{ $task->description ?? old('description') }}">
+            <input @class(['border-red-400'=>$errors->has('description')]) type="text" name="description" value="{{ $task->description ?? old('description') }}">
             @error('description')
                 <div class="error-msg">{{ $message }}</div>
             @enderror
         </div>
         <div>
             <label for="full_description">Full Description</label>
-            <textarea name="full_description" rows="10">{{ $task->full_description ?? old('full_description') }}</textarea>
+            <textarea @class(['border-red-400'=>$errors->has('full_description')]) name="full_description" rows="10">{{ $task->full_description ?? old('full_description') }}</textarea>
             @error('full_description')
                 <div class="error-msg">{{ $message }}</div>
             @enderror
         </div>
-        <div>
-            <button type="submit">{{ isset($task) ? 'Edit Task' : 'Add Task' }}</button>
+
+        <div class="flex gap-4 mt-6">
+            <button class="btn-primary" type="submit">{{ isset($task) ? 'Edit Task' : 'Add Task' }}</button>
+            <a class="btn-secondary" href="{{ route('tasks.index') }}" class="block">Close</a>
         </div>
 
     </form>
