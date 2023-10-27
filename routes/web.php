@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,12 +30,24 @@ Route::get('/tasks', function () {
 Route::view('/tasks/create', 'tasks.create')->name('tasks.create');
 
 
-Route::get('/tasks/{id}', function ($id) {
-    $task = Task::findOrFail($id);
+Route::get('/tasks/{task}/edit', function (Task $task) {
+    return view('tasks.edit', compact('task'));
+})->name('tasks.edit');
+
+
+Route::get('/tasks/{task}', function (Task $task) {
     return view('tasks.show', compact('task'));
 })->name('tasks.show');
 
 
-Route::post('/tasks', function(Request $request,) {
-    dd($request->all());
+Route::post('/tasks', function(TaskRequest $request) 
+{
+    $task = Task::create( $request->validated() );
+    return redirect()->route('tasks.show', $task->id)->with('success','Task successfully created!');
 })->name('tasks.store');
+
+
+Route::put('/tasks/{task}', function(Task $task, TaskRequest $request) {
+    $task->update( $request->validated() );
+    return redirect()->route('tasks.show', $task)->with('success','Task successfully updated!');
+})->name('tasks.update');
